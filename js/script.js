@@ -38,6 +38,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const printCardsContainer = document.getElementById('printCardsContainer');
     const printDateSubtitle = document.getElementById('printDateSubtitle');
 
+    // Référence du bouton Rapport Conseiller
+    const btnReport = document.getElementById('btn-report');
+
     let currentJobId = null;
     let selectedJobIds = [];
     let jobs = JSON.parse(localStorage.getItem('employor_jobs')) || [];
@@ -63,6 +66,64 @@ document.addEventListener('DOMContentLoaded', () => {
         closePreviewBtn.addEventListener('click', () => {
             previewSection.classList.remove('active');
             currentJobId = null;
+        });
+    }
+
+    // Génération du rapport synthétique analytique pour le conseiller dans la modale A4
+    if (btnReport) {
+        btnReport.addEventListener('click', () => {
+            if (jobs.length === 0) {
+                alert("Aucune candidature enregistrée pour générer le rapport.");
+                return;
+            }
+
+            printCardsContainer.innerHTML = '';
+            const todayStr = new Date().toLocaleDateString('fr-FR');
+            printDateSubtitle.textContent = `Rapport d'étape Conseiller — Édition du ${todayStr}`;
+
+            const total = jobs.length;
+            const aPostuler = jobs.filter(c => c.status === 'to-apply').length;
+            const cvEnvoye = jobs.filter(c => c.status === 'sent').length;
+            const entretiens = jobs.filter(c => c.status === 'interview').length;
+
+            const reportDiv = document.createElement('div');
+            reportDiv.style.cssText = 'background: #ffffff; border: 1px solid #cbd5e1; padding: 20px; border-radius: 8px; font-size: 0.95rem; line-height: 1.6; color: #1e293b; page-break-inside: avoid;';
+
+            let htmlContent = `
+                <p style="margin-top: 0;">Bonjour,</p>
+                <p>Voici un point d'étape concernant mes démarches de recherche d'emploi récentes (généré via Employor) :</p>
+                
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 6px; margin: 15px 0;">
+                    <h4 style="margin: 0 0 10px 0; color: #0f172a; font-size: 1rem;">📊 Statistiques globales :</h4>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li>Total des offres suivies : <strong>${total}</strong></li>
+                        <li>À postuler : <strong>${aPostuler}</strong></li>
+                        <li>CV / Candidatures envoyés : <strong>${cvEnvoye}</strong></li>
+                        <li>Entretiens planifiés / passés : <strong>${entretiens}</strong></li>
+                    </ul>
+                </div>
+
+                <div style="margin: 15px 0;">
+                    <h4 style="margin: 0 0 10px 0; color: #0f172a; font-size: 1rem;">📋 Détail des dernières démarches :</h4>
+                    <ol style="margin: 0; padding-left: 20px;">
+            `;
+
+            [...jobs].reverse().slice(0, 10).forEach((c) => {
+                htmlContent += `<li style="margin-bottom: 6px;">Poste : <strong>${escapeHtml(c.title)}</strong> chez <strong>${escapeHtml(c.company)}</strong> [Statut : ${getStatusLabel(c.status)}] (Source : ${escapeHtml(c.source || 'N/C')})</li>`;
+            });
+
+            htmlContent += `
+                    </ol>
+                </div>
+
+                <p style="margin-bottom: 25px;">Je reste à votre disposition pour toute information complémentaire ou pour faire un point.</p>
+                <p style="margin-bottom: 0;">Cordialement,<br><strong>Christophe Millot</strong></p>
+            `;
+
+            reportDiv.innerHTML = htmlContent;
+            printCardsContainer.appendChild(reportDiv);
+
+            printPreviewModal.classList.add('active');
         });
     }
 
@@ -152,11 +213,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             let targetJobs = [];
+            // Si on vient d'une sélection multiple
             if (selectedJobIds.length > 0) {
                 targetJobs = selectedJobIds.map(id => jobs.find(j => j.id === id)).filter(Boolean);
             } else if (currentJobId) {
                 const singleJob = jobs.find(j => j.id === currentJobId);
                 if (singleJob) targetJobs.push(singleJob);
+            } else {
+                // Par défaut si le conteneur a des cartes d'offres affichées
+                targetJobs = [...jobs];
             }
 
             if (targetJobs.length === 0) {

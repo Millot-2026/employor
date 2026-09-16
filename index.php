@@ -11,7 +11,10 @@
     <div class="container">
         <header>
             <h1>Employor - Suivi de Candidatures</h1>
-            <button id="openModalBtn" class="btn">+ Nouvelle Candidature</button>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <button id="btn-report" class="btn btn-accent" title="Générer le rapport synthétique pour le conseiller" style="background-color: #3b82f6;">📋 Rapport Conseiller</button>
+                <button id="openModalBtn" class="btn">+ Nouvelle Candidature</button>
+            </div>
         </header>
 
         <!-- Section 1 : Tableau de bord (Cartes Kanban) -->
@@ -239,7 +242,7 @@
         </div>
     </div>
 
-<!-- Modale de Prévisualisation Compacte Multi-Offres (Type Feuille A4) -->
+    <!-- Modale de Prévisualisation Compacte Multi-Offres (Type Feuille A4) -->
     <div id="printPreviewModal" class="modal">
         <div class="a4-page">
             <!-- Croix de fermeture en haut à droite -->
@@ -281,13 +284,6 @@
         </div>
     </div>
 
-
-
-
     <script src="./js/script.js"></script>
-
-
-
-
 </body>
 </html>
