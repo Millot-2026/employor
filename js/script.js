@@ -38,7 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const printCardsContainer = document.getElementById('printCardsContainer');
     const printDateSubtitle = document.getElementById('printDateSubtitle');
 
-    // Référence du bouton Rapport Conseiller
     const btnReport = document.getElementById('btn-report');
 
     let currentJobId = null;
@@ -69,7 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Génération du rapport synthétique analytique pour le conseiller dans la modale A4
     if (btnReport) {
         btnReport.addEventListener('click', () => {
             if (jobs.length === 0) {
@@ -213,14 +211,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             let targetJobs = [];
-            // Si on vient d'une sélection multiple
             if (selectedJobIds.length > 0) {
                 targetJobs = selectedJobIds.map(id => jobs.find(j => j.id === id)).filter(Boolean);
             } else if (currentJobId) {
                 const singleJob = jobs.find(j => j.id === currentJobId);
                 if (singleJob) targetJobs.push(singleJob);
             } else {
-                // Par défaut si le conteneur a des cartes d'offres affichées
                 targetJobs = [...jobs];
             }
 

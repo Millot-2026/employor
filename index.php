@@ -12,7 +12,7 @@
         <header>
             <h1>Employor - Suivi de Candidatures</h1>
             <div style="display: flex; gap: 10px; align-items: center;">
-                <button id="btn-report" class="btn btn-accent" title="Générer le rapport synthétique pour le conseiller" style="background-color: #3b82f6;">📋 Rapport Conseiller</button>
+                <button id="btn-report" class="btn" style="background-color: #3b82f6;">📋 Rapport Conseiller</button>
                 <button id="openModalBtn" class="btn">+ Nouvelle Candidature</button>
             </div>
         </header>
@@ -71,8 +71,17 @@
 
         <!-- Section 3 : Fiche détaillée / Modification de l'offre sélectionnée -->
         <section id="previewSection" class="preview-section">
-            <div class="preview-header">
-                <h2 id="previewSectionTitle">Détails de l'offre</h2>
+            <div class="preview-header" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 15px;">
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <h2 id="previewSectionTitle" style="margin: 0; font-size: 1.5rem;">Détails de l'offre</h2>
+                    <!-- Sélecteur de statut avec pastilles de couleur intégrées -->
+                    <select id="previewStatusSelect" style="padding: 6px 12px; border-radius: 6px; background: var(--card-bg); color: var(--text-color); border: 1px solid var(--border-color); font-weight: bold; width: fit-content; cursor: pointer;">
+                        <option value="" disabled selected style="font-weight: bold;">Statut</option>
+                        <option value="to-apply" style="font-weight: normal;">🔴 À postuler</option>
+                        <option value="sent" style="font-weight: normal;">🟢 CV Envoyé</option>
+                        <option value="interview" style="font-weight: normal;">🟠 Entretiens</option>
+                    </select>
+                </div>
                 <div style="display: flex; gap: 10px;">
                     <button type="button" id="printJobBtn" class="btn btn-success" style="padding: 5px 12px; font-size: 0.85rem;">👁️ Prévisualiser l'offre (A4)</button>
                     <button type="button" id="closePreviewBtn" class="btn btn-secondary" style="padding: 5px 12px; font-size: 0.85rem;">Fermer la vue</button>
@@ -118,15 +127,7 @@
                     <p id="previewNotes" style="white-space: pre-wrap;">-</p>
                 </div>
 
-                <div class="preview-actions">
-                    <div class="form-group" style="margin-bottom: 0; display: flex; align-items: center; gap: 10px;">
-                        <label for="previewStatusSelect" style="margin-bottom: 0; white-space: nowrap;">Statut :</label>
-                        <select id="previewStatusSelect" style="padding: 6px; border-radius: 6px; background: var(--card-bg); color: var(--text-color); border: 1px solid var(--border-color);">
-                            <option value="to-apply">À postuler (Rouge)</option>
-                            <option value="sent">CV Envoyé (Vert)</option>
-                            <option value="interview">Entretiens (Orange)</option>
-                        </select>
-                    </div>
+                <div class="preview-actions" style="justify-content: flex-end;">
                     <div style="display: flex; gap: 10px;">
                         <button type="button" id="enableEditBtn" class="btn">Modifier</button>
                         <button type="button" id="deleteJobBtn" class="btn btn-danger">Supprimer</button>
@@ -245,11 +246,9 @@
     <!-- Modale de Prévisualisation Compacte Multi-Offres (Type Feuille A4) -->
     <div id="printPreviewModal" class="modal">
         <div class="a4-page">
-            <!-- Croix de fermeture en haut à droite -->
             <button type="button" id="closeModalCross" class="print-hide-actions" style="position: absolute; top: 15px; right: 15px; background: #f1f5f9; border: 1px solid #cbd5e1; color: #0f172a; width: 32px; height: 32px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s;" title="Fermer">&times;</button>
 
             <div>
-                <!-- En-tête de la page A4 -->
                 <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0f172a; padding-bottom: 12px; margin-bottom: 20px; padding-right: 40px;">
                     <div>
                         <h2 style="color: #0f172a; font-size: 1.4rem; margin: 0 0 3px 0;">Récapitulatif des Rendez-vous</h2>
@@ -261,12 +260,10 @@
                     </div>
                 </div>
                 
-                <!-- Conteneur dynamique où les fiches compactes vont s'empiler -->
                 <div id="printCardsContainer" style="display: flex; flex-direction: column; gap: 15px;">
                     <!-- Injecté par JavaScript -->
                 </div>
 
-                <!-- Bloc d'envoi d'e-mail intégré (masqué à l'impression) -->
                 <div class="print-hide-actions" style="margin-top: 25px; background: #f8fafc; border: 1px solid #cbd5e1; padding: 15px; border-radius: 8px;">
                     <h4 style="color: #0f172a; font-size: 0.95rem; margin-bottom: 10px;">📧 Envoyer ce récapitulatif par e-mail</h4>
                     <div style="display: flex; gap: 10px; align-items: center;">
@@ -276,7 +273,6 @@
                 </div>
             </div>
 
-            <!-- Boutons de contrôle (masqués à l'impression) -->
             <div class="print-hide-actions" style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e2e8f0; padding-top: 15px; margin-top: 20px;">
                 <button type="button" id="closePrintModalBtn" class="btn btn-danger">Fermer</button>
                 <button type="button" id="confirmPrintBtn" class="btn btn-success">Lancer l'impression</button>
