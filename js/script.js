@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const previewContact = document.getElementById('previewContact');
     const previewEmail = document.getElementById('previewEmail');
     const previewDate = document.getElementById('previewDate');
+    const previewCompanyInfo = document.getElementById('previewCompanyInfo');
     const previewJobText = document.getElementById('previewJobText');
     const previewNotes = document.getElementById('previewNotes');
     const previewStatusSelect = document.getElementById('previewStatusSelect');
@@ -193,6 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div><strong>Tél/Mail :</strong> ${escapeHtml(job.contactEmail || 'Non renseigné')}</div>
                 <div><strong>Date :</strong> ${escapeHtml(job.applyDate || 'Non définie')}</div>
             </div>
+            ${job.companyInfo ? `<div style="font-size: 0.82rem; background: #ffffff; padding: 8px; border: 1px solid #e2e8f0; border-radius: 4px; margin-bottom: 6px; white-space: pre-wrap;"><strong>Renseignements / Analyse de l'entreprise :</strong>\n${escapeHtml(job.companyInfo)}</div>` : ''}
             ${job.jobText ? `<div style="font-size: 0.82rem; background: #ffffff; padding: 8px; border: 1px solid #e2e8f0; border-radius: 4px; margin-bottom: 6px; white-space: pre-wrap;"><strong>Texte de l'offre :</strong>\n${escapeHtml(job.jobText)}</div>` : ''}
             ${job.notes ? `<div style="font-size: 0.82rem; background: #ffffff; padding: 8px; border: 1px solid #e2e8f0; border-radius: 4px; white-space: pre-wrap;"><strong>Notes personnelles :</strong> ${escapeHtml(job.notes)}</div>` : ''}
         `;
@@ -273,6 +275,15 @@ document.addEventListener('DOMContentLoaded', () => {
                             </tr>
                         </table>
                 `;
+
+                if (job.companyInfo) {
+                    emailBody += `
+                        <div style="margin-top: 10px; background: #ffffff; padding: 10px; border: 1px solid #e2e8f0; border-radius: 4px; font-size: 0.85rem; white-space: pre-wrap;">
+                            <strong style="display: block; margin-bottom: 5px; color: #475569;">Renseignements / Analyse de l'entreprise :</strong>
+                            ${escapeHtml(job.companyInfo)}
+                        </div>
+                    `;
+                }
 
                 if (job.jobText) {
                     emailBody += `
@@ -383,6 +394,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 contactEmail: document.getElementById('contactEmail').value,
                 applyDate: document.getElementById('applyDate').value,
                 status: document.getElementById('status').value,
+                companyInfo: document.getElementById('companyInfo').value,
                 jobText: document.getElementById('jobText').value,
                 notes: document.getElementById('notes').value
             };
@@ -407,6 +419,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('editContactName').value = job.contactName || '';
             document.getElementById('editContactEmail').value = job.contactEmail || '';
             document.getElementById('editApplyDate').value = job.applyDate || '';
+            document.getElementById('editCompanyInfo').value = job.companyInfo || '';
             document.getElementById('editJobText').value = job.jobText || '';
             document.getElementById('editNotes').value = job.notes || '';
 
@@ -444,6 +457,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         contactName: document.getElementById('editContactName').value,
                         contactEmail: document.getElementById('editContactEmail').value,
                         applyDate: document.getElementById('editApplyDate').value,
+                        companyInfo: document.getElementById('editCompanyInfo').value,
                         jobText: document.getElementById('editJobText').value,
                         notes: document.getElementById('editNotes').value
                     };
@@ -588,6 +602,7 @@ document.addEventListener('DOMContentLoaded', () => {
         previewContact.textContent = job.contactName || 'Non renseigné';
         previewEmail.textContent = job.contactEmail || 'Non renseigné';
         previewDate.textContent = job.applyDate || 'Non renseignée';
+        previewCompanyInfo.textContent = job.companyInfo || 'Aucun renseignement sur l\'entreprise enregistré.';
         previewJobText.textContent = job.jobText || 'Aucun texte d\'offre collé.';
         previewNotes.textContent = job.notes || 'Aucune note enregistrée.';
         previewStatusSelect.value = job.status;

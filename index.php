@@ -118,6 +118,11 @@
                 </div>
 
                 <div class="preview-notes">
+                    <h4>Renseignements / Analyse de l'entreprise</h4>
+                    <p id="previewCompanyInfo" style="white-space: pre-wrap; font-family: inherit;">-</p>
+                </div>
+
+                <div class="preview-notes">
                     <h4>Texte complet de l'offre</h4>
                     <p id="previewJobText" style="white-space: pre-wrap; font-family: inherit;">-</p>
                 </div>
@@ -166,6 +171,10 @@
                         <label>Date</label>
                         <input type="date" id="editApplyDate">
                     </div>
+                </div>
+                <div class="form-group">
+                    <label>Renseignements / Analyse de l'entreprise</label>
+                    <textarea id="editCompanyInfo" placeholder="Informations sur l'entreprise, modèle, localisation..."></textarea>
                 </div>
                 <div class="form-group">
                     <label>Texte complet de l'offre</label>
@@ -226,6 +235,10 @@
                         <option value="sent">CV Envoyé</option>
                         <option value="interview">Entretiens</option>
                     </select>
+                </div>
+                <div class="form-group">
+                    <label for="companyInfo">Renseignements / Analyse de l'entreprise</label>
+                    <textarea id="companyInfo" placeholder="Activité, localisation, modèle économique..."></textarea>
                 </div>
                 <div class="form-group">
                     <label for="jobText">Texte complet de l'offre</label>
